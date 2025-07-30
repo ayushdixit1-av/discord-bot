@@ -21,7 +21,7 @@ client.on("messageCreate", async (message) => {
 
   const args = message.content.split(" ");
   const query = args.slice(1).join(" ");
-  if (!query) return message.reply("Please provide a YouTube URL or search query!");
+  if (!query) return message.reply("Please provide a YouTube URL or search term.");
 
   if (!message.member.voice.channel)
     return message.reply("Join a voice channel first!");
@@ -39,11 +39,9 @@ client.on("messageCreate", async (message) => {
   connection.subscribe(player);
   player.play(resource);
 
-  player.on(AudioPlayerStatus.Idle, () => {
-    connection.destroy();
-  });
+  player.on(AudioPlayerStatus.Idle, () => connection.destroy());
 
-  message.reply(`🎶 Now playing: ${query}`);
+  message.reply(`🎵 Now playing: ${query}`);
 });
 
 client.login(process.env.TOKEN);
