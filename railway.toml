@@ -1,10 +1,7 @@
-# railway.toml
-
 [build]
 builder = "NIXPACKS"
 
 [setup]
-# Install Node.js 20.x explicitly
 pkgs = ["nodejs@20_x"]
 
 [deploy]
