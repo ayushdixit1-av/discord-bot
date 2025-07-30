@@ -1,15 +1,14 @@
 {
   "name": "video-editing",
   "version": "1.0.0",
-  "description": "Discord music/video bot ready for Railway deployment",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Your Name",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
     "axios": "^1.11.0",
@@ -19,11 +18,11 @@
     "ffmpeg-static": "^5.2.0",
     "node-fetch": "^2.7.0",
     "spotify-url-info": "^3.2.18",
-    "yt-dlp-exec": "^1.0.2",
     "yt-search": "^2.13.1",
     "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "yt-dlp-exec": "^1.0.2"
   }
 }
