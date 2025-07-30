@@ -1,6 +1,11 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require("@discordjs/voice");
+const {
+  joinVoiceChannel,
+  createAudioPlayer,
+  createAudioResource,
+  AudioPlayerStatus
+} = require("@discordjs/voice");
 const play = require("play-dl");
 
 const client = new Client({
@@ -21,27 +26,32 @@ client.on("messageCreate", async (message) => {
 
   const args = message.content.split(" ");
   const query = args.slice(1).join(" ");
-  if (!query) return message.reply("Please provide a YouTube URL or search term.");
+  if (!query) return message.reply("❌ Please provide a song name or YouTube URL.");
 
   if (!message.member.voice.channel)
-    return message.reply("Join a voice channel first!");
+    return message.reply("❌ Join a voice channel first!");
 
-  const stream = await play.stream(query);
-  const resource = createAudioResource(stream.stream, { inputType: stream.type });
+  try {
+    const stream = await play.stream(query);
+    const resource = createAudioResource(stream.stream, { inputType: stream.type });
 
-  const connection = joinVoiceChannel({
-    channelId: message.member.voice.channel.id,
-    guildId: message.guild.id,
-    adapterCreator: message.guild.voiceAdapterCreator
-  });
+    const connection = joinVoiceChannel({
+      channelId: message.member.voice.channel.id,
+      guildId: message.guild.id,
+      adapterCreator: message.guild.voiceAdapterCreator
+    });
 
-  const player = createAudioPlayer();
-  connection.subscribe(player);
-  player.play(resource);
+    const player = createAudioPlayer();
+    connection.subscribe(player);
+    player.play(resource);
 
-  player.on(AudioPlayerStatus.Idle, () => connection.destroy());
+    player.on(AudioPlayerStatus.Idle, () => connection.destroy());
 
-  message.reply(`🎵 Now playing: ${query}`);
+    message.reply(`🎵 Now playing: ${query}`);
+  } catch (err) {
+    console.error(err);
+    message.reply("❌ Failed to play the song.");
+  }
 });
 
 client.login(process.env.TOKEN);
